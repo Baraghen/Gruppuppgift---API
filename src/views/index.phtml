@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title><?= $title ?></title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+
+  <!-- Login form -->
+
+  <template id="loginFormTemplate">
+    <h1 class="display-4 mb-4 mt-4 text-center">Login</h1>
+    <h1 class="display-5 mb-4 text-center text-danger" id="loginMessage"></h1>
+    <form id="loginForm">
+    <div class="form-group">
+      <label for="username">Username:</label>
+      <input class="form-control" type="text" name="username" required>
+    </div>
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input class="form-control" type="password" name="password" required>
+    </div>
+      <button class="btn btn-primary" type="submit">Logga in</button>
+    </form>
+  </template>
+
+  <!-- Register form -->
+
+  <template id="registerFormTemplate">
+    <h1 class="display-4 mb-4 text-center">Registrer User</h1>
+    <h1 class="display-5 mb-4 text-center text-success" id="regMessage"></h1>
+    <form id="registerForm">
+    <div class="form-group">
+      <label for="username">Username:</label>
+      <input class="form-control" type="text" name="username" required>
+    </div>
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input class="form-control" type="password" name="password" required>
+    </div>
+      <button class="btn btn-secondary mb-4" type="submit">Registera</button>
+    </form>
+  </template>
+
+  <!-- Entry form -->
+
+  <template id="entryFormTemplate">
+    <h1 class="display-4 mb-4 text-center">Post</h1>
+    <h1 class="display-5 mb-4 text-center text-success" id="entryMessage"></h1>
+    <form id="createEntryForm">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input class="form-control" type="text" name="title" required>
+      </div>
+      <div class="form-group">
+        <label for="content">Content</label>
+        <textarea class="form-control" name="content" cols="30" rows="10" required></textarea>
+      </div>
+      <div class="row justify-content-between mb-4">
+        <div class="col-4">
+          <button class="btn btn-primary btn-block" type="submit">Submit</button>
+        </div>
+        <div class="col-4">
+          <button class="btn btn-secondary btn-block" onclick="logout()">Log Out</button>
+        </div>
+      </div>
+    </form>
+  </template>
+
+  <!-- Edit post form -->
+
+  <template id="editPostFormTemplate">
+    <h1 class="display-4 mb-4 text-center">Post</h1>
+    <h1 class="display-5 mb-4 text-center text-success" id="entryMessage"></h1>
+    <form id="editEntryForm">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input class="form-control" type="text" name="title" required>
+      </div>
+      <div class="form-group">
+        <label for="content">Content</label>
+        <textarea class="form-control" name="content" cols="30" rows="10" required></textarea>
+      </div>
+      <div class="row justify-content-center mb-4">
+        <div class="col-4">
+          <button class="btn btn-primary btn-block" type="submit">Edit</button>
+        </div>
+      </div>
+    </form>
+  </template>
+
+  <!-- Menu bar -->
+
+  <template id="menuTemplate">
+    <div class="row justify-content-between mb-4">
+      <div class="col-4">
+        <button id="myPostBtn" class="btn btn-primary btn-block">Get My Posts</button>
+      </div>
+      <div class="col-4">
+        <button id="allPostBtn" class="btn btn-success btn-block">Get All Posts</button>
+      </div>
+      <div class="col-4">
+        <button id="allUserBtn" class="btn btn-warning btn-block">Get All Users</button>
+      </div>
+    </div>
+    <div id="entryList">
+    </div>
+  </template>
+
+  <!-- Container for reading posts and comments -->
+
+  <template id="readPost">
+    <div id="currentPost">
+    </div>
+    <div class="row justify-content-center mb-4">
+      <div class="col-4">
+        <button class="btn btn-secondary btn-block" onclick="checkLogin()">Go Back</button>
+      </div>
+    </div>
+    <div id="commentList">
+    </div>
+  </template>
+
+  <!-- Comment form -->
+
+  <template id="commentFormTemplate">
+    <div id="currentPost">
+    </div>
+      <h1 class="display-5 mb-4 text-center text-success" id="commentMessage"></h1>
+      <form id="createCommentForm">
+        <div class="form-group">
+          <textarea class="form-control" name="content" cols="30" rows="10" required></textarea>
+        </div>
+        <div class="row justify-content-center mb-4">
+          <div class="col-4">
+            <button class="btn btn-primary btn-block" type="submit">Comment</button>
+          </div>
+          <div class="col-4">
+            <button class="btn btn-secondary btn-block" onclick="checkLogin()">Go Back</button>
+          </div>
+        </div>
+      </form>
+      <div id="commentList">
+      </div>
+  </template>
+
+  <!-- Edit comment form -->
+
+  <template id="editCommentFormTemplate">
+  <h5 class="mb-4 text-center">Comment</h5>
+    <h1 class="display-5 mb-4 text-center text-success" id="commentMessage"></h1>
+    <form id="editCommentForm">
+      <div class="form-group">
+        <textarea class="form-control" name="content" cols="30" rows="10" required></textarea>
+      </div>
+      <div class="row justify-content-center mb-4">
+        <div class="col-4">
+          <button class="btn btn-primary btn-block" type="submit">Comment</button>
+        </div>
+        <div class="col-4">
+          <button class="btn btn-secondary btn-block" onclick="checkLogin()">Go Back</button>
+        </div>
+      </div>
+    </form>
+  </template>
+
+  
+  <div class="container">
+    <header>
+      <h1 class="display-3 mb-4 text-center"><?= $title ?></h1>
+    </header>
+    <main class="container">
+      <!-- INNEHÅLL -->
+    </main>
+  </div>
+
+  <script type="text/javascript" src="main.js"></script>
+</body>
+
+</html>
